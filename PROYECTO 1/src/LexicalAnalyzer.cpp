@@ -170,28 +170,34 @@ Token LexicalAnalyzer::nextToken()
             if (c == '"')
             {
                 std::string valorStr = lexema.substr(1, lexema.length() - 2);
-                
+
                 // 1. Validamos si la cadena es un tipo de sangre restringido
                 if (valorStr == "A+" || valorStr == "A-" || valorStr == "B+" || valorStr == "B-" ||
                     valorStr == "O+" || valorStr == "O-" || valorStr == "AB+" || valorStr == "AB-")
                 {
                     return Token(lexema, TokenType::TIPO_SANGRE, startLine, startCol);
                 }
-                
+
                 // --- AQUÍ PEGAMOS LA MODIFICACIÓN ---
                 // 2. Validar Código ID (Formato: 3 letras + guión + dígitos)
-                if (valorStr.length() >= 5 && valorStr[3] == '-') {
+                if (valorStr.length() >= 5 && valorStr[3] == '-')
+                {
                     bool formatoValido = true;
                     // Validar 3 letras iniciales
-                    for(int i = 0; i < 3; i++) {
-                        if(!isLetter(valorStr[i])) formatoValido = false;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (!isLetter(valorStr[i]))
+                            formatoValido = false;
                     }
                     // Validar dígitos después del guión
-                    for(size_t i = 4; i < valorStr.length(); i++) {
-                        if(!isDigit(valorStr[i])) formatoValido = false;
+                    for (size_t i = 4; i < valorStr.length(); i++)
+                    {
+                        if (!isDigit(valorStr[i]))
+                            formatoValido = false;
                     }
-                    
-                    if (formatoValido) {
+
+                    if (formatoValido)
+                    {
                         return Token(lexema, TokenType::CODIGO_ID, startLine, startCol);
                     }
                 }
