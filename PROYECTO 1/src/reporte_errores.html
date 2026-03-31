@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reporte de Errores Léxicos</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #fef9f9; margin: 20px; }
+h1 { color: #c0392b; text-align: center; }
+table { width: 90%; margin: 0 auto; border-collapse: collapse; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+th { background-color: #e74c3c; color: white; }
+tr:nth-child(even) { background-color: #fdf2f2; }
+.critico { font-weight: bold; color: #b64d41; }
+</style>
+</head>
+<body>
+<h1>Reporte de Errores Léxicos - MedLang</h1>
+<table>
+<tr><th>No.</th><th>Lexema</th><th>Tipo de Error</th><th>Descripción</th><th>Línea</th><th>Columna</th><th>Gravedad</th></tr>
+<tr ><td>1</td><td>@</td><td>Caracter Ilegal</td><td>El caracter introducido no es valido en MedLang.</td><td>2</td><td>5</td><td>ERROR</td></tr>
+<tr class='critico'><td>2</td><td>"Incompleto
+</td><td>Cadena sin cerrar</td><td>Se encontro un salto de linea antes de cerrar la cadena.</td><td>3</td><td>15</td><td>CRITICO</td></tr>
+<tr ><td>3</td><td>NINGUNA</td><td>Palabra no reconocida</td><td>El lexema no pertenece a las palabras reservadas o enumeraciones.</td><td>4</td><td>38</td><td>ERROR</td></tr>
+</table>
+</body>
+</html>

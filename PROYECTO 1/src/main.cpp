@@ -4,6 +4,7 @@
 #include <vector>
 #include "Token.h"
 #include "LexicalAnalyzer.h"
+#include "ReportGenerator.h" // NUEVO INCLUDE
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -19,7 +20,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Leer todo el contenido del archivo
     std::stringstream buffer;
     buffer << file.rdbuf();
     std::string content = buffer.str();
@@ -29,14 +29,19 @@ int main(int argc, char* argv[]) {
     std::vector<Token> tokens = lexer.analyzeAll();
 
     std::cout << "--- ANALISIS DE: " << filePath << " ---" << std::endl;
-    std::cout << "--- TOKENS ENCONTRADOS ---" << std::endl;
+    
+    // Imprimir en consola
     for (const auto& t : tokens) {
-        if (t.getTipo() != TokenType::ERROR_LEXICO) {
+        if (t.getTipo() != TokenType::ERROR_LEXICO && t.getTipo() != TokenType::FIN_ARCHIVO) {
             std::cout << t.toString() << std::endl;
         }
     }
-
     lexer.getErrorManager().imprimirErrores();
+
+    // NUEVO: Generar Reportes HTML en la carpeta del ejecutable
+    std::cout << "\n--- GENERANDO REPORTES HTML ---" << std::endl;
+    ReportGenerator::generarReporteTokens(tokens, "reporte_tokens.html");
+    ReportGenerator::generarReporteErrores(lexer.getErrorManager(), "reporte_errores.html");
 
     return 0;
 }
