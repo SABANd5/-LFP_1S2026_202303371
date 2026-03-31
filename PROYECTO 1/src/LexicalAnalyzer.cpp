@@ -122,27 +122,36 @@ Token LexicalAnalyzer::nextToken()
             }
             else if (isLetter(c))
             {
-                lexema += c;
-                currentCol++;
-                currentPos++;
-                char next_c = (currentPos < sourceCode.length()) ? sourceCode[currentPos] : ' ';
-
-                if (!isLetter(next_c) && !isDigit(next_c) && next_c != '_' && next_c != '-')
+                // Consumimos toda la palabra (letras, números, guiones, guiones bajos) de un solo golpe
+                while (currentPos < sourceCode.length())
                 {
-                    if (lexema.find('-') != std::string::npos)
+                    char curr = sourceCode[currentPos];
+                    if (isLetter(curr) || isDigit(curr) || curr == '_' || curr == '-')
                     {
-                        return Token(lexema, TokenType::CODIGO_ID, startLine, startCol);
+                        lexema += curr;
+                        currentCol++;
+                        currentPos++;
                     }
                     else
                     {
-                        TokenType tipo = clasificarPalabra(lexema);
-                        if (tipo == TokenType::ERROR_LEXICO)
-                        {
-                            // REGISTRAMOS EL ERROR: Palabra no reconocida
-                            errorManager.agregarError(lexema, "Palabra no reconocida", "El lexema no pertenece a las palabras reservadas o enumeraciones.", startLine, startCol, "ERROR");
-                        }
-                        return Token(lexema, tipo, startLine, startCol);
+                        break; // Terminó la palabra
                     }
+                }
+
+                // Ahora la clasificamos y retornamos el token completo
+                if (lexema.find('-') != std::string::npos && lexema[0] != 'M')
+                {
+                    return Token(lexema, TokenType::CODIGO_ID, startLine, startCol);
+                }
+                else
+                {
+                    TokenType tipo = clasificarPalabra(lexema);
+                    if (tipo == TokenType::ERROR_LEXICO)
+                    {
+                        // REGISTRAMOS EL ERROR: Palabra no reconocida
+                        errorManager.agregarError(lexema, "Palabra no reconocida", "El lexema no pertenece a las palabras reservadas o enumeraciones.", startLine, startCol, "ERROR");
+                    }
+                    return Token(lexema, tipo, startLine, startCol);
                 }
             }
             else
@@ -174,7 +183,6 @@ Token LexicalAnalyzer::nextToken()
                 return Token(lexema, tipo, startLine, startCol);
             }
             break;
-
         case 1:
             lexema += c;
             currentCol++;
@@ -355,7 +363,8 @@ Token LexicalAnalyzer::nextToken()
     } // Fin del while
 
     // --- MODIFICACIÓN 2: EOF inesperado dejando cadena abierta ---
-    if (estado == 1) {
+    if (estado == 1)
+    {
         errorManager.agregarError(lexema, "Cadena sin cerrar", "Fin de archivo inesperado antes de cerrar la cadena.", startLine, startCol, "CRITICO");
         return Token(lexema, TokenType::ERROR_LEXICO, startLine, startCol);
     }

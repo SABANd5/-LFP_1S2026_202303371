@@ -1,0 +1,24 @@
+HOSPITAL {
+    PACIENTES {
+        paciente: "Lucia Fernandez" [edad: 28, tipo_sangre: "AB+", habitacion: 105]
+        paciente: "Roberto Gomez" [edad: 55, tipo_sangre: "O+", habitacion: 204]
+        paciente: "Carmen Martinez" [edad: 19, tipo_sangre: "B-", habitacion: 312]
+        paciente: "Hugo Sanchez" [edad: 72, tipo_sangre: "A-", habitacion: 401]
+    };
+    MEDICOS {
+        medico: "Dr. Arturo Lopez" [especialidad: CIRUGIA, codigo: "MED-015"]
+        medico: "Dra. Beatriz Rojas" [especialidad: PEDIATRIA, codigo: "MED-042"]
+        medico: "Dr. Fernando Valle" [especialidad: ONCOLOGIA, codigo: "MED-088"]
+        medico: "Dra. Silvia Paz" [especialidad: MEDICINA_GENERAL, codigo: "MED-102"]
+    };
+    CITAS {
+        cita: "Lucia Fernandez" con "Dr. Arturo Lopez" [fecha: 2026-05-15, hora: 14:30]
+        cita: "Roberto Gomez" con "Dra. Silvia Paz" [fecha: 2026-05-16, hora: 08:15]
+        cita: "Hugo Sanchez" con "Dr. Fernando Valle" [fecha: 2026-06-02, hora: 11:00]
+    };
+    DIAGNOSTICOS {
+        diagnostico: "Lucia Fernandez" [condicion: "Apendicitis", medicamento: "Ibuprofeno", dosis: CADA_8_HORAS]
+        diagnostico: "Roberto Gomez" [condicion: "Colesterol Alto", medicamento: "Atorvastatina", dosis: DIARIA]
+        diagnostico: "Hugo Sanchez" [condicion: "Leucemia", medicamento: "Quimioterapia oral", dosis: SEMANAL]
+    };
+}
