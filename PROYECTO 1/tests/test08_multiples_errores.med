@@ -1,0 +1,5 @@
+HOSPITAL {
+    @
+    paciente: "Incompleto
+    medico: "Dr. Mal" [especialidad: NINGUNA]
+}

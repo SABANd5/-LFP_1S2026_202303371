@@ -1,0 +1,1 @@
+HOSPITAL { paciente: "Ana" [edad: 20, tipo_sangre: "Z+", habitacion: 101] }

@@ -1,0 +1,1 @@
+HOSPITAL { medico: "Dr. X" [especialidad: DENTISTA, codigo: "MED-999"] }

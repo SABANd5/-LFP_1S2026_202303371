@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Token.h"
+#include "ErrorManager.h"
 
 class LexicalAnalyzer {
 private:
@@ -11,19 +12,22 @@ private:
     int currentPos;
     int currentLine;
     int currentCol;
+    
+    ErrorManager errorManager; // Nuestro administrador de errores
 
     // Métodos auxiliares
     bool isLetter(char c);
     bool isDigit(char c);
     bool isSpace(char c);
-    
-    // Nuevo: Nos ayudará a clasificar las palabras acumuladas en S0
     TokenType clasificarPalabra(const std::string& lexema);
 
 public:
     LexicalAnalyzer(const std::string& source);
     Token nextToken();
     std::vector<Token> analyzeAll();
+    
+    // Método para extraer los errores después de analizar todo
+    ErrorManager getErrorManager() const;
 };
 
 #endif // LEXICALANALYZER_H
