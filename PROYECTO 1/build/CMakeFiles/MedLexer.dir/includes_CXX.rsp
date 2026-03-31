@@ -1,0 +1,1 @@
+-IC:/Users/SabanD/Desktop/USAC/SEMEST~3/LABLEN~1/PROYEC~1/PROYEC~1/build/MEDLEX~1/include -isystem "C:/Qt/6.11.0/llvm-mingw_64/include/QtWidgets" -isystem "C:/Qt/6.11.0/llvm-mingw_64/include" -isystem "C:/Qt/6.11.0/llvm-mingw_64/include/QtCore" -isystem "C:/Qt/6.11.0/llvm-mingw_64/mkspecs/win32-clang-g++" -isystem "C:/Qt/6.11.0/llvm-mingw_64/include/QtGui"
