@@ -1,5 +1,0 @@
-C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/build/CMakeFiles/MedLexer.dir
-C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/build/CMakeFiles/edit_cache.dir
-C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/build/CMakeFiles/rebuild_cache.dir
-C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/build/CMakeFiles/MedLexer_autogen_timestamp_deps.dir
-C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/build/CMakeFiles/MedLexer_autogen.dir

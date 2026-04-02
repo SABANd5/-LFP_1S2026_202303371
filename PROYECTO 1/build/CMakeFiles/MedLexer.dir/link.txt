@@ -1,3 +1,0 @@
-C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\MedLexer.dir/objects.a
-C:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\MedLexer.dir/objects.a @CMakeFiles\MedLexer.dir\objects1.rsp
-C:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\MedLexer.dir/objects.a -Wl,--no-whole-archive -o MedLexer.exe -Wl,--out-implib,libMedLexer.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MedLexer.dir\linkLibs.rsp
