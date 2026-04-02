@@ -5,26 +5,28 @@
 
 El proyecto utiliza `CMakeLists.txt` para enlazar el código fuente con las librerías de Qt.
 
-### 1. Clonar el repositorio y abrir la carpeta raíz
+### 1. **Clonar el repositorio y abrir la carpeta raíz**
 
 Abra la carpeta `PROYECTO 1` en Visual Studio Code.
 
-### 2. Configurar el entorno de Qt en el sistema
+### 2. **Configurar el entorno de Qt en el sistema**
 
 Asegúrese de que la carpeta `bin` de su instalación de Qt esté agregada a la variable `Path` de Windows.
 
 **Ejemplo:**
 C:\Qt\6.x.x\llvm-mingw_64\bin
 
-### 3. Configurar CMake
+### 3. **Configurar CMake**
 
 En la terminal integrada de VS Code o con CMake Tools:
 
 cmake -S . -B build -G "MinGW Makefiles"
-### 4. Compilar el proyecto (Build)
+### 4. **Compilar el proyecto (Build)**
 cmake --build build --config Debug --target all
-### 5. Ejecutar la aplicación
-.\build\MedLexer.exe
+
+### 5. **Ejecutar la aplicación**
+     ```powershell
+   .\build\MedLexer.exe
 Instrucciones de Uso
 Cargar archivo:
 En la interfaz de MedLexer, haga clic en "Abrir Archivo" y seleccione un archivo .med (ejemplos en /examples).
