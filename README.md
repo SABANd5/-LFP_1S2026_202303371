@@ -25,24 +25,23 @@ cmake -S . -B build -G "MinGW Makefiles"
 cmake --build build --config Debug --target all
 
 ### 5. **Ejecutar la aplicación**
-     ```powershell
-   .\build\MedLexer.exe
-Instrucciones de Uso
-Cargar archivo:
+.\build\MedLexer.exe
+## Instrucciones de Uso
+1. **Cargar archivo:**
 En la interfaz de MedLexer, haga clic en "Abrir Archivo" y seleccione un archivo .med (ejemplos en /examples).
-Ejecutar análisis:
+2. **Ejecutar análisis:**
 Haga clic en "Ejecutar Análisis". La consola mostrará el recuento de tokens y errores léxicos.
-Generar reportes:
+3. **Generar reportes:**
 Haga clic en "Generar Reportes HTML".
-Visualizar resultados:
+4. **Visualizar resultados:**
 Diríjase a /reportes y abra:
 reporte_pacientes.html → Historial y triage
 reporte_medicos.html → Carga laboral por especialidad
 reporte_citas.html → Agenda y detección de conflictos
 reporte_estadistico.html → KPIs y gráficas
-Diagrama Graphviz:
+5. **Diagrama Graphviz:**
 El archivo hospital.dot puede visualizarse en herramientas como Graphviz Online.
-Estructura del Repositorio
+## Estructura del Repositorio
 /src → Código fuente en C++ (.cpp, .h) y CMakeLists.txt
 /docs → Manual Técnico, Manual de Usuario y Casos de Prueba
 /tests → Archivos .med con errores para pruebas del modo pánico
