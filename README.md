@@ -16,14 +16,14 @@ Asegúrese de que la carpeta `bin` de su instalación de Qt esté agregada a la 
 **Ejemplo:**
 C:\Qt\6.x.x\llvm-mingw_64\bin
 
-3. Configurar CMake
+### 3. Configurar CMake
 
 En la terminal integrada de VS Code o con CMake Tools:
 
 cmake -S . -B build -G "MinGW Makefiles"
-4. Compilar el proyecto (Build)
+### 4. Compilar el proyecto (Build)
 cmake --build build --config Debug --target all
-5. Ejecutar la aplicación
+### 5. Ejecutar la aplicación
 .\build\MedLexer.exe
 Instrucciones de Uso
 Cargar archivo:
