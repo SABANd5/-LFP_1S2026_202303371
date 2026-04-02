@@ -10,7 +10,8 @@
 #include "LexicalAnalyzer.h"
 #include "ReportGenerator.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+{
     setWindowTitle("MedLexer - Analizador Lexico");
     resize(900, 600);
 
@@ -40,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     buttonLayout->addWidget(btnLimpiar);
 
     mainLayout->addLayout(buttonLayout);
-    mainLayout->addWidget(txtCodigo, 2); // Ocupa 2/3 de la pantalla
+    mainLayout->addWidget(txtCodigo, 2);  // Ocupa 2/3 de la pantalla
     mainLayout->addWidget(txtConsola, 1); // Ocupa 1/3 de la pantalla
 
     setCentralWidget(centralWidget);
@@ -56,13 +57,16 @@ MainWindow::~MainWindow() {}
 
 // --- FUNCIONES DE LOS BOTONES ---
 
-void MainWindow::cargarArchivo() {
+void MainWindow::cargarArchivo()
+{
     // Abre la ventana de Windows para buscar archivos
     QString fileName = QFileDialog::getOpenFileName(this, "Abrir Archivo MedLang", "", "Archivos Med (*.med);;Todos los archivos (*.*)");
-    if (fileName.isEmpty()) return;
+    if (fileName.isEmpty())
+        return;
 
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
         QMessageBox::warning(this, "Error", "No se pudo abrir el archivo");
         return;
     }
@@ -73,9 +77,11 @@ void MainWindow::cargarArchivo() {
     file.close();
 }
 
-void MainWindow::analizarCodigo() {
+void MainWindow::analizarCodigo()
+{
     QString codigo = txtCodigo->toPlainText();
-    if (codigo.isEmpty()) {
+    if (codigo.isEmpty())
+    {
         QMessageBox::information(this, "Aviso", "No hay código para analizar.");
         return;
     }
@@ -88,36 +94,47 @@ void MainWindow::analizarCodigo() {
     txtConsola->append("\n>> --- ANÁLISIS COMPLETADO ---");
     txtConsola->append(">> Tokens encontrados: " + QString::number(tokens.size()));
     txtConsola->append(">> Errores léxicos encontrados: " + QString::number(errores.getErrores().size()));
-    
-    if (errores.hayErrores()) {
+
+    if (errores.hayErrores())
+    {
         txtConsola->append(">> [!] ADVERTENCIA: Se detectaron errores. Genera el reporte para ver los detalles.");
-    } else {
+    }
+    else
+    {
         txtConsola->append(">> [OK] Análisis limpio. Estructura correcta.");
     }
 }
 
-void MainWindow::generarReportes() {
+void MainWindow::generarReportes()
+{
     QString codigo = txtCodigo->toPlainText();
-    if (codigo.isEmpty()) {
+    if (codigo.isEmpty())
+    {
         QMessageBox::warning(this, "Error", "Analiza código primero antes de generar reportes.");
         return;
     }
 
     LexicalAnalyzer lexer(codigo.toUtf8().constData());
     std::vector<Token> tokens = lexer.analyzeAll();
-    
-    ReportGenerator::generarReporteTokens(tokens, "reporte_tokens.html");
-    ReportGenerator::generarReporteErrores(lexer.getErrorManager(), "reporte_errores.html");
-    ReportGenerator::generarReportePacientes(tokens, "reporte_pacientes.html");  //reporte 1
-    ReportGenerator::generarReporteMedicos(tokens, "reporte_medicos.html");      //reporte 2
-    ReportGenerator::generarReporteCitas(tokens, "reporte_citas.html");          //reporte 3
-    ReportGenerator::generarReporteEstadistico(tokens, "reporte_estadistico.html"); //reporte 4
-    
-    txtConsola->append(">> Reportes HTML exportados exitosamente.");
-    QMessageBox::information(this, "Éxito", "Reportes HTML generados en la carpeta 'build'.\n\nPuedes abrirlos en tu navegador.");
+
+    // --- NUEVA RUTA BASE ---
+    // Usamos barras normales (/) porque C++ en Windows las prefiere para evitar errores de escape
+    std::string rutaBase = "C:/Users/SabanD/Desktop/USAC/SEMESTRE 4/LAB LENGUAJES FORMALES/PROYECTOS/PROYECTO 1/reportes/";
+
+    ReportGenerator::generarReporteTokens(tokens, rutaBase + "reporte_tokens.html");
+    ReportGenerator::generarReporteErrores(lexer.getErrorManager(), rutaBase + "reporte_errores.html");
+    ReportGenerator::generarReportePacientes(tokens, rutaBase + "reporte_pacientes.html");
+    ReportGenerator::generarReporteMedicos(tokens, rutaBase + "reporte_medicos.html");
+    ReportGenerator::generarReporteCitas(tokens, rutaBase + "reporte_citas.html");
+    ReportGenerator::generarReporteEstadistico(tokens, rutaBase + "reporte_estadistico.html");
+    ReportGenerator::generarDiagramaGraphviz(tokens, rutaBase + "hospital.dot");
+
+    txtConsola->append(">> Reportes HTML y Diagrama exportados exitosamente.");
+    QMessageBox::information(this, "Éxito", "Reportes generados en la carpeta 'reportes'.");
 }
 
-void MainWindow::limpiar() {
+void MainWindow::limpiar()
+{
     txtCodigo->clear();
     txtConsola->setText(">> Consola MedLexer iniciada...\n");
 }

@@ -1,0 +1,56 @@
+# ==========================================
+# C++ / Compilador
+# ==========================================
+# Archivos objeto y ejecutables
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# ==========================================
+# CMake
+# ==========================================
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+cmake-build-*/
+.cmake/
+
+# ==========================================
+# Qt
+# ==========================================
+# Archivos autogenerados por Qt (MOC, UIC, RCC)
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*_autogen/
+*.pro.user
+*.pro.user.*
+.qmake.stash
+
+# ==========================================
+# Entornos de Desarrollo (IDEs)
+# ==========================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# Visual Studio / CLion
+.vs/
+.idea/
+
+# ==========================================
+# Carpetas de Construcción (Build)
+# ==========================================
+# ¡Esta es la más importante! Ignora tu carpeta build donde están los .exe pesados
+build/
+bin/
+out/

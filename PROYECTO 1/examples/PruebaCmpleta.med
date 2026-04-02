@@ -1,0 +1,64 @@
+HOSPITAL {
+    PACIENTES {
+        paciente: "Hugo Activo" [edad: 35, tipo_sangre: "A+", habitacion: 101]
+        paciente: "Paco Sindiag" [edad: 28, tipo_sangre: "O-", habitacion: 102]
+        paciente: "Luis Critico" [edad: 55, tipo_sangre: "AB+", habitacion: 103]
+    };
+
+    MEDICOS {
+        medico: "Dr. Baja" [especialidad: PEDIATRIA, codigo: "MED-001"]
+        medico: "Dra. Normal" [especialidad: CARDIOLOGIA, codigo: "MED-002"]
+        medico: "Dr. Alta" [especialidad: NEUROLOGIA, codigo: "MED-003"]
+        medico: "Dra. Saturada" [especialidad: CIRUGIA, codigo: "MED-004"]
+    };
+
+    CITAS {
+        // --- 1. PRUEBA DE CONFLICTO (ROJO) Y CARGA BAJA ---
+        // Fechas pasadas (Marzo 2026). Mismo doctor, misma hora.
+        cita: "Hugo Activo" con "Dr. Baja" [fecha: 2026-03-10, hora: 09:00]
+        cita: "Paco Sindiag" con "Dr. Baja" [fecha: 2026-03-10, hora: 09:00] 
+
+        // --- 2. PRUEBA DE ESTADO PENDIENTE (NARANJA) Y CARGA NORMAL ---
+        // Fechas futuras (Mayo 2026). 5 citas en total.
+        cita: "Luis Critico" con "Dra. Normal" [fecha: 2026-05-01, hora: 08:00] 
+        cita: "Hugo Activo" con "Dra. Normal" [fecha: 2026-05-02, hora: 09:00] 
+        cita: "Paco Sindiag" con "Dra. Normal" [fecha: 2026-05-03, hora: 10:00] 
+        cita: "Luis Critico" con "Dra. Normal" [fecha: 2026-05-04, hora: 11:00] 
+        cita: "Hugo Activo" con "Dra. Normal" [fecha: 2026-05-05, hora: 12:00] 
+
+        // --- 3. PRUEBA DE CARGA ALTA Y ESTADO CONFIRMADA (VERDE) ---
+        // Fechas pasadas (Marzo 2026) sin conflicto. 7 citas.
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-01, hora: 08:00]
+        cita: "Paco Sindiag" con "Dr. Alta" [fecha: 2026-03-02, hora: 09:00]
+        cita: "Luis Critico" con "Dr. Alta" [fecha: 2026-03-03, hora: 10:00]
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-04, hora: 11:00]
+        cita: "Paco Sindiag" con "Dr. Alta" [fecha: 2026-03-05, hora: 12:00]
+        cita: "Luis Critico" con "Dr. Alta" [fecha: 2026-03-06, hora: 13:00]
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-07, hora: 14:00]
+
+        // --- 4. PRUEBA DE CARGA SATURADA Y OCUPACIÓN MÁXIMA ---
+        // 10 citas. Esto disparará la alerta roja de ocupación en Cirugía.
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-11, hora: 07:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-12, hora: 08:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-13, hora: 09:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-14, hora: 10:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-15, hora: 11:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-16, hora: 12:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-17, hora: 13:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-18, hora: 14:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-19, hora: 15:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-20, hora: 16:00]
+    };
+
+    DIAGNOSTICOS {
+        // Hugo tiene 1 diagnostico -> ACTIVO (Verde)
+        diagnostico: "Hugo Activo" [condicion: "Alergia", medicamento: "Loratadina", dosis: DIARIA]
+
+        // Luis tiene 2 diagnosticos -> CRITICO (Rojo)
+        // Le damos Loratadina a Luis también para que gane en las estadísticas
+        diagnostico: "Luis Critico" [condicion: "Asma", medicamento: "Loratadina", dosis: CADA_12_HORAS]
+        diagnostico: "Luis Critico" [condicion: "Gastritis", medicamento: "Omeprazol", dosis: CADA_8_HORAS]
+
+        // Paco queda intencionalmente fuera -> SIN DIAG (Naranja)
+    };
+}

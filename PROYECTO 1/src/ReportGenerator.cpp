@@ -825,3 +825,144 @@ void ReportGenerator::generarReporteEstadistico(const std::vector<Token> &tokens
     archivo << "</table>\n</body>\n</html>";
     archivo.close();
 }
+
+// ==========================================
+// DIAGRAMA GRAPHVIZ (.dot) - A PRUEBA DE FALLOS
+// ==========================================
+void ReportGenerator::generarDiagramaGraphviz(const std::vector<Token>& tokens, const std::string& rutaSalida) {
+    std::ofstream archivo(rutaSalida);
+    if (!archivo.is_open()) return;
+
+    // ESCUDO DE SEGURIDAD: Listas para evitar "Nodos Fantasma"
+    std::set<std::string> pacientesRegistrados;
+    std::set<std::string> medicosRegistrados;
+
+    // Configuración inicial del grafo
+    archivo << "digraph Hospital {\n"
+            << "  rankdir=TB;\n"
+            << "  node [shape=box, style=filled, fontname=\"Arial\"];\n\n"
+            
+            // Nodos principales del PDF
+            << "  H [label=\"Hospital MedLang\", fillcolor=\"#1A4731\", fontcolor=white, shape=ellipse];\n"
+            << "  P [label=\"PACIENTES\", fillcolor=\"#2E7D52\", fontcolor=white];\n"
+            << "  M [label=\"MEDICOS\", fillcolor=\"#2E7D52\", fontcolor=white];\n"
+            << "  C [label=\"CITAS\", fillcolor=\"#2E7D52\", fontcolor=white];\n"
+            << "  D [label=\"DIAGNOSTICOS\", fillcolor=\"#2E7D52\", fontcolor=white];\n\n"
+            
+            << "  H -> P; H -> M; H -> C; H -> D;\n\n";
+
+    int idDiagnostico = 1;
+
+    for (size_t i = 0; i < tokens.size(); i++) {
+        // --- 1. NODOS DE PACIENTES ---
+        if (tokens[i].getTipo() == TokenType::PR_PACIENTE_ELEM && i + 2 < tokens.size()) {
+            std::string nombre = tokens[i+2].getLexema();
+            if (nombre.length() >= 2) nombre = nombre.substr(1, nombre.length() - 2);
+            
+            if (nombre.empty()) continue; // Evitar nodos vacíos o nulos
+            pacientesRegistrados.insert(nombre); // Guardar como válido
+
+            std::string sangre = "-", hab = "-";
+            size_t j = i + 2;
+            while (j < tokens.size() && tokens[j].getTipo() != TokenType::CORCHETE_CIERRA) {
+                if (tokens[j].getLexema() == "tipo_sangre" && j + 2 < tokens.size()) {
+                    sangre = tokens[j+2].getLexema();
+                    if (sangre.length() >= 2) sangre = sangre.substr(1, sangre.length() - 2);
+                } else if (tokens[j].getLexema() == "habitacion" && j + 2 < tokens.size()) {
+                    hab = tokens[j+2].getLexema();
+                }
+                j++;
+            }
+            
+            std::string labelP = nombre + "\\n" + sangre + " | Hab. " + hab;
+            archivo << "  \"" << nombre << "\" [label=\"" << labelP << "\", fillcolor=\"#D4EDDA\"];\n";
+            archivo << "  P -> \"" << nombre << "\";\n";
+        }
+        
+        // --- 2. NODOS DE MÉDICOS ---
+        else if (tokens[i].getTipo() == TokenType::PR_MEDICO_ELEM && i + 2 < tokens.size()) {
+            std::string nombre = tokens[i+2].getLexema();
+            if (nombre.length() >= 2) nombre = nombre.substr(1, nombre.length() - 2);
+            
+            if (nombre.empty()) continue; // Evitar nodos vacíos
+            medicosRegistrados.insert(nombre); // Guardar como válido
+
+            std::string esp = "-", cod = "-";
+            size_t j = i + 2;
+            while (j < tokens.size() && tokens[j].getTipo() != TokenType::CORCHETE_CIERRA) {
+                if (tokens[j].getLexema() == "especialidad" && j + 2 < tokens.size()) esp = tokens[j+2].getLexema();
+                else if (tokens[j].getLexema() == "codigo" && j + 2 < tokens.size()) {
+                    cod = tokens[j+2].getLexema();
+                    if (cod.length() >= 2) cod = cod.substr(1, cod.length() - 2);
+                }
+                j++;
+            }
+            
+            std::string labelM = nombre + "\\n" + cod + " | " + esp;
+            archivo << "  \"" << nombre << "\" [label=\"" << labelM << "\", fillcolor=\"#D6EAF8\"];\n";
+            archivo << "  M -> \"" << nombre << "\";\n";
+        }
+        
+        // --- 3. ARISTAS DE CITAS ---
+        else if (tokens[i].getTipo() == TokenType::PR_CITA_ELEM && i + 4 < tokens.size()) {
+            std::string paciente = tokens[i+2].getLexema();
+            if (paciente.length() >= 2) paciente = paciente.substr(1, paciente.length() - 2);
+            
+            std::string medico = tokens[i+4].getLexema();
+            if (medico.length() >= 2) medico = medico.substr(1, medico.length() - 2);
+            
+            // VALIDACIÓN: Si el paciente o médico no existen en nuestras listas, ignorar la cita
+            if (pacientesRegistrados.find(paciente) == pacientesRegistrados.end() || 
+                medicosRegistrados.find(medico) == medicosRegistrados.end()) {
+                continue; 
+            }
+
+            std::string fecha = "-", hora = "-";
+            size_t j = i + 4;
+            while (j < tokens.size() && tokens[j].getTipo() != TokenType::CORCHETE_CIERRA) {
+                if (tokens[j].getLexema() == "fecha" && j + 2 < tokens.size()) fecha = tokens[j+2].getLexema();
+                if (tokens[j].getLexema() == "hora" && j + 2 < tokens.size()) hora = tokens[j+2].getLexema();
+                j++;
+            }
+            
+            std::string labelCita = fecha + "\\n" + hora;
+            archivo << "  \"" << paciente << "\" -> \"" << medico << "\" [label=\"" << labelCita << "\", color=\"#E67E22\", style=dashed];\n";
+        }
+        
+        // --- 4. NODOS DE DIAGNÓSTICOS ---
+        else if (tokens[i].getTipo() == TokenType::PR_DIAGNOSTICO_ELEM && i + 2 < tokens.size()) {
+            std::string paciente = tokens[i+2].getLexema();
+            if (paciente.length() >= 2) paciente = paciente.substr(1, paciente.length() - 2);
+            
+            // VALIDACIÓN: Si el diagnóstico apunta a un paciente inválido o vacío, ignorarlo
+            if (paciente.empty() || pacientesRegistrados.find(paciente) == pacientesRegistrados.end()) {
+                continue;
+            }
+
+            std::string cond = "-", med = "-", dosis = "-";
+            size_t j = i + 2;
+            while (j < tokens.size() && tokens[j].getTipo() != TokenType::CORCHETE_CIERRA) {
+                if (tokens[j].getLexema() == "condicion" && j + 2 < tokens.size()) {
+                    cond = tokens[j+2].getLexema();
+                    if (cond.length() >= 2) cond = cond.substr(1, cond.length() - 2);
+                } else if (tokens[j].getLexema() == "medicamento" && j + 2 < tokens.size()) {
+                    med = tokens[j+2].getLexema();
+                    if (med.length() >= 2) med = med.substr(1, med.length() - 2);
+                } else if (tokens[j].getLexema() == "dosis" && j + 2 < tokens.size()) {
+                    dosis = tokens[j+2].getLexema();
+                }
+                j++;
+            }
+            
+            std::string labelDiag = cond + "\\n" + med + " / " + dosis;
+            std::string nombreNodoDiag = "Diag_" + std::to_string(idDiagnostico++);
+            
+            archivo << "  " << nombreNodoDiag << " [label=\"" << labelDiag << "\", fillcolor=\"#FDEBD0\"];\n";
+            archivo << "  D -> " << nombreNodoDiag << ";\n";
+            archivo << "  " << nombreNodoDiag << " -> \"" << paciente << "\" [label=\"diagnóstico activo\", color=\"#C0392B\"];\n";
+        }
+    }
+
+    archivo << "}\n";
+    archivo.close();
+}

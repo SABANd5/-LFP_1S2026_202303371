@@ -1,0 +1,60 @@
+digraph Hospital {
+  rankdir=TB;
+  node [shape=box, style=filled, fontname="Arial"];
+
+  H [label="Hospital MedLang", fillcolor="#1A4731", fontcolor=white, shape=ellipse];
+  P [label="PACIENTES", fillcolor="#2E7D52", fontcolor=white];
+  M [label="MEDICOS", fillcolor="#2E7D52", fontcolor=white];
+  C [label="CITAS", fillcolor="#2E7D52", fontcolor=white];
+  D [label="DIAGNOSTICOS", fillcolor="#2E7D52", fontcolor=white];
+
+  H -> P; H -> M; H -> C; H -> D;
+
+  "Hugo Activo" [label="Hugo Activo\nA+ | Hab. 101", fillcolor="#D4EDDA"];
+  P -> "Hugo Activo";
+  "Paco Sindiag" [label="Paco Sindiag\nO- | Hab. 102", fillcolor="#D4EDDA"];
+  P -> "Paco Sindiag";
+  "Luis Critico" [label="Luis Critico\nAB+ | Hab. 103", fillcolor="#D4EDDA"];
+  P -> "Luis Critico";
+  "Dr. Baja" [label="Dr. Baja\nMED-001 | PEDIATRIA", fillcolor="#D6EAF8"];
+  M -> "Dr. Baja";
+  "Dra. Normal" [label="Dra. Normal\nMED-002 | CARDIOLOGIA", fillcolor="#D6EAF8"];
+  M -> "Dra. Normal";
+  "Dr. Alta" [label="Dr. Alta\nMED-003 | NEUROLOGIA", fillcolor="#D6EAF8"];
+  M -> "Dr. Alta";
+  "Dra. Saturada" [label="Dra. Saturada\nMED-004 | CIRUGIA", fillcolor="#D6EAF8"];
+  M -> "Dra. Saturada";
+  "Hugo Activo" -> "Dr. Baja" [label="2026-03-10\n09:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dr. Baja" [label="2026-03-10\n09:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dra. Normal" [label="2026-05-01\n08:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dra. Normal" [label="2026-05-02\n09:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dra. Normal" [label="2026-05-03\n10:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dra. Normal" [label="2026-05-04\n11:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dra. Normal" [label="2026-05-05\n12:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dr. Alta" [label="2026-03-01\n08:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dr. Alta" [label="2026-03-02\n09:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dr. Alta" [label="2026-03-03\n10:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dr. Alta" [label="2026-03-04\n11:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dr. Alta" [label="2026-03-05\n12:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dr. Alta" [label="2026-03-06\n13:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dr. Alta" [label="2026-03-07\n14:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dra. Saturada" [label="2026-03-11\n07:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dra. Saturada" [label="2026-03-12\n08:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dra. Saturada" [label="2026-03-13\n09:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dra. Saturada" [label="2026-03-14\n10:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dra. Saturada" [label="2026-03-15\n11:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dra. Saturada" [label="2026-03-16\n12:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dra. Saturada" [label="2026-03-17\n13:00", color="#E67E22", style=dashed];
+  "Luis Critico" -> "Dra. Saturada" [label="2026-03-18\n14:00", color="#E67E22", style=dashed];
+  "Hugo Activo" -> "Dra. Saturada" [label="2026-03-19\n15:00", color="#E67E22", style=dashed];
+  "Paco Sindiag" -> "Dra. Saturada" [label="2026-03-20\n16:00", color="#E67E22", style=dashed];
+  Diag_1 [label="Alergia\nLoratadina / DIARIA", fillcolor="#FDEBD0"];
+  D -> Diag_1;
+  Diag_1 -> "Hugo Activo" [label="diagnóstico activo", color="#C0392B"];
+  Diag_2 [label="Asma\nLoratadina / CADA_12_HORAS", fillcolor="#FDEBD0"];
+  D -> Diag_2;
+  Diag_2 -> "Luis Critico" [label="diagnóstico activo", color="#C0392B"];
+  Diag_3 [label="Gastritis\nOmeprazol / CADA_8_HORAS", fillcolor="#FDEBD0"];
+  D -> Diag_3;
+  Diag_3 -> "Luis Critico" [label="diagnóstico activo", color="#C0392B"];
+}
