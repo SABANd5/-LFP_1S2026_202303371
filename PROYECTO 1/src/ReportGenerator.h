@@ -8,12 +8,18 @@
 
 class ReportGenerator {
 public:
-    // Métodos estáticos para no tener que instanciar la clase
+    // Reportes de la Fase 2 (Depuración)
     static void generarReporteTokens(const std::vector<Token>& tokens, const std::string& rutaSalida);
     static void generarReporteErrores(const ErrorManager& errorManager, const std::string& rutaSalida);
 
+    // NUEVOS REPORTES MÉDICOS (Fase Final del PDF)
+    static void generarReportePacientes(const std::vector<Token>& tokens, const std::string& rutaSalida);
+    static void generarReporteMedicos(const std::vector<Token>& tokens, const std::string& rutaSalida);
+    static void generarReporteCitas(const std::vector<Token>& tokens, const std::string& rutaSalida);
+    static void generarReporteEstadistico(const std::vector<Token>& tokens, const std::string& rutaSalida);
+    static void generarDiagramaGraphviz(const std::vector<Token>& tokens, const std::string& rutaSalida);
+
 private:
-    // Método auxiliar para convertir el Enum a un texto legible para la tabla
     static std::string obtenerNombreTipoToken(TokenType tipo);
 };
 

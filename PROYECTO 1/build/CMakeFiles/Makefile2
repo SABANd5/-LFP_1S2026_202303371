@@ -79,8 +79,8 @@ clean: CMakeFiles/MedLexer_autogen.dir/clean
 # Target rules for target CMakeFiles/MedLexer.dir
 
 # All Build rule for target.
-CMakeFiles/MedLexer.dir/all: CMakeFiles/MedLexer_autogen_timestamp_deps.dir/all
 CMakeFiles/MedLexer.dir/all: CMakeFiles/MedLexer_autogen.dir/all
+CMakeFiles/MedLexer.dir/all: CMakeFiles/MedLexer_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MedLexer.dir\build.make CMakeFiles/MedLexer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MedLexer.dir\build.make CMakeFiles/MedLexer.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="C:\Users\SabanD\Desktop\USAC\SEMESTRE 4\LAB LENGUAJES FORMALES\PROYECTOS\PROYECTO 1\build\CMakeFiles" --progress-num=1,2,3,4,5,6,7,8,9 "Built target MedLexer"

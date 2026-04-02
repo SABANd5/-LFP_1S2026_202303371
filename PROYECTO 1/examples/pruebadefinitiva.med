@@ -1,0 +1,68 @@
+HOSPITAL {
+    PACIENTES {
+        paciente: "Hugo Activo" [edad: 35, tipo_sangre: "A+", habitacion: 101]
+        paciente: "Paco Sindiag" [edad: 28, tipo_sangre: "O-", habitacion: 102]
+        paciente: "Luis Critico" [edad: 55, tipo_sangre: "AB+", habitacion: 103]
+    };
+
+    MEDICOS {
+        medico: "Dr. Baja" [especialidad: PEDIATRIA, codigo: "MED-001"]
+        medico: "Dra. Normal" [especialidad: CIRUGIA, codigo: "MED-002"]
+        medico: "Dr. Alta" [especialidad: CIRUGIA, codigo: "MED-003"]
+        medico: "Dra. Saturada" [especialidad: CIRUGIA, codigo: "MED-004"]
+    };
+
+    CITAS {
+        // --- DR. BAJA: 2 citas (BAJA / AZUL) ---
+        // Trampa: Mismo doc, misma fecha, misma hora -> CONFLICTO (ROJO en Reporte 3)
+        // Como la fecha (marzo) es pasada, también prueba citas pasadas.
+        cita: "Hugo Activo" con "Dr. Baja" [fecha: 2026-03-10, hora: 09:00]
+        cita: "Paco Sindiag" con "Dr. Baja" [fecha: 2026-03-10, hora: 09:00] 
+
+        // --- DRA. NORMAL: 5 citas (NORMAL / VERDE) ---
+        // Trampa: Fechas en MAYO 2026 (Futuro) -> PENDIENTE (NARANJA en Reporte 3)
+        cita: "Luis Critico" con "Dra. Normal" [fecha: 2026-05-01, hora: 08:00] 
+        cita: "Hugo Activo" con "Dra. Normal" [fecha: 2026-05-02, hora: 09:00] 
+        cita: "Paco Sindiag" con "Dra. Normal" [fecha: 2026-05-03, hora: 10:00] 
+        cita: "Luis Critico" con "Dra. Normal" [fecha: 2026-05-04, hora: 11:00] 
+        cita: "Hugo Activo" con "Dra. Normal" [fecha: 2026-05-05, hora: 12:00] 
+
+        // --- DR. ALTA: 7 citas (ALTA / AMARILLO) ---
+        // Fechas pasadas sin conflicto -> CONFIRMADA (VERDE en Reporte 3)
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-01, hora: 08:00]
+        cita: "Paco Sindiag" con "Dr. Alta" [fecha: 2026-03-02, hora: 09:00]
+        cita: "Luis Critico" con "Dr. Alta" [fecha: 2026-03-03, hora: 10:00]
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-04, hora: 11:00]
+        cita: "Paco Sindiag" con "Dr. Alta" [fecha: 2026-03-05, hora: 12:00]
+        cita: "Luis Critico" con "Dr. Alta" [fecha: 2026-03-06, hora: 13:00]
+        cita: "Hugo Activo" con "Dr. Alta" [fecha: 2026-03-07, hora: 14:00]
+
+        // --- DRA. SATURADA: 12 citas (SATURADA / ROJO) ---
+        // Con esto logramos que la especialidad CIRUGÍA acapare 24 de las 26 citas totales.
+        // ¡Esto hará que la barra de ocupación supere el 80% en el Reporte 4!
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-11, hora: 07:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-12, hora: 08:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-13, hora: 09:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-14, hora: 10:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-15, hora: 11:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-16, hora: 12:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-17, hora: 13:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-18, hora: 14:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-19, hora: 15:00]
+        cita: "Paco Sindiag" con "Dra. Saturada" [fecha: 2026-03-20, hora: 16:00]
+        cita: "Luis Critico" con "Dra. Saturada" [fecha: 2026-03-21, hora: 17:00]
+        cita: "Hugo Activo" con "Dra. Saturada" [fecha: 2026-03-22, hora: 18:00]
+    };
+
+    DIAGNOSTICOS {
+        // Hugo tiene 1 diagnostico -> ACTIVO (Verde en Reporte 1)
+        diagnostico: "Hugo Activo" [condicion: "Alergia", medicamento: "Loratadina", dosis: DIARIA]
+
+        // Luis tiene 2 diagnosticos -> CRITICO (Rojo en Reporte 1)
+        // Le damos Loratadina a Luis también para que gane como medicamento más recetado en Reporte 4
+        diagnostico: "Luis Critico" [condicion: "Asma", medicamento: "Loratadina", dosis: CADA_12_HORAS]
+        diagnostico: "Luis Critico" [condicion: "Gastritis", medicamento: "Omeprazol", dosis: CADA_8_HORAS]
+
+        // Paco no está aquí -> SIN DIAG (Naranja en Reporte 1)
+    };
+}

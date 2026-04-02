@@ -1,0 +1,57 @@
+HOSPITAL {
+    PACIENTES {
+        paciente: "Juan Normal" [edad: 30, tipo_sangre: "O+", habitacion: 101]
+        paciente: "Ana Sindiag" [edad: 25, tipo_sangre: "A-", habitacion: 102]
+        paciente: "Pedro Critico" [edad: 60, tipo_sangre: "AB+", habitacion: 103]
+    };
+    
+    MEDICOS {
+        medico: "Dr. Relax" [especialidad: PEDIATRIA, codigo: "MED-001"]
+        medico: "Dra. Trabajo" [especialidad: CARDIOLOGIA, codigo: "MED-002"]
+        medico: "Dr. Carga Alta" [especialidad: NEUROLOGIA, codigo: "MED-003"]
+        medico: "Dr. Saturado" [especialidad: CIRUGIA, codigo: "MED-004"]
+    };
+    
+    CITAS {
+        // --- PRUEBA DE CONFLICTO Y BAJA (2 citas) ---
+        cita: "Juan Normal" con "Dr. Relax" [fecha: 2026-05-20, hora: 08:00]
+        cita: "Ana Sindiag" con "Dr. Relax" [fecha: 2026-05-20, hora: 08:00]
+
+        // --- PRUEBA DE CARGA NORMAL (4 citas) ---
+        cita: "Juan Normal" con "Dra. Trabajo" [fecha: 2026-05-21, hora: 09:00]
+        cita: "Pedro Critico" con "Dra. Trabajo" [fecha: 2026-05-21, hora: 10:00]
+        cita: "Ana Sindiag" con "Dra. Trabajo" [fecha: 2026-02-21, hora: 11:00]
+        cita: "Juan Normal" con "Dra. Trabajo" [fecha: 2026-05-21, hora: 12:00]
+
+        // --- PRUEBA DE CARGA ALTA (7 citas) ---
+        cita: "Juan Normal" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 08:00]
+        cita: "Ana Sindiag" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 09:00]
+        cita: "Pedro Critico" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 10:00]
+        cita: "Juan Normal" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 11:00]
+        cita: "Ana Sindiag" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 12:00]
+        cita: "Pedro Critico" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 13:00]
+        cita: "Juan Normal" con "Dr. Carga Alta" [fecha: 2026-05-25, hora: 14:00]
+
+        // --- PRUEBA DE CARGA SATURADA (9 citas) ---
+        cita: "Juan Normal" con "Dr. Saturado" [fecha: 2026-06-01, hora: 07:00]
+        cita: "Ana Sindiag" con "Dr. Saturado" [fecha: 2026-06-01, hora: 08:00]
+        cita: "Pedro Critico" con "Dr. Saturado" [fecha: 2026-06-01, hora: 09:00]
+        cita: "Juan Normal" con "Dr. Saturado" [fecha: 2026-06-01, hora: 10:00]
+        cita: "Ana Sindiag" con "Dr. Saturado" [fecha: 2026-06-01, hora: 11:00]
+        cita: "Pedro Critico" con "Dr. Saturado" [fecha: 2026-06-01, hora: 12:00]
+        cita: "Juan Normal" con "Dr. Saturado" [fecha: 2026-06-01, hora: 13:00]
+        cita: "Ana Sindiag" con "Dr. Saturado" [fecha: 2026-06-01, hora: 14:00]
+        cita: "Pedro Critico" con "Dr. Saturado" [fecha: 2026-06-01, hora: 15:00]
+    };
+    
+    DIAGNOSTICOS {
+        // Juan tiene 1 diagnostico -> ACTIVO (Verde)
+        diagnostico: "Juan Normal" [condicion: "Gripe", medicamento: "Ibuprofeno", dosis: CADA_8_HORAS]
+        
+        // Pedro tiene 2 diagnosticos -> CRITICO (Rojo)
+        diagnostico: "Pedro Critico" [condicion: "Diabetes", medicamento: "Insulina", dosis: DIARIA]
+        diagnostico: "Pedro Critico" [condicion: "Hipertension", medicamento: "Losartan", dosis: CADA_12_HORAS]
+        
+        // Ana no se menciona aquí, así que queda -> SIN DIAG (Naranja)
+    };
+}

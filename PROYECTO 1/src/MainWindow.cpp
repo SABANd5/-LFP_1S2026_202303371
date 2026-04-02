@@ -108,6 +108,10 @@ void MainWindow::generarReportes() {
     
     ReportGenerator::generarReporteTokens(tokens, "reporte_tokens.html");
     ReportGenerator::generarReporteErrores(lexer.getErrorManager(), "reporte_errores.html");
+    ReportGenerator::generarReportePacientes(tokens, "reporte_pacientes.html");  //reporte 1
+    ReportGenerator::generarReporteMedicos(tokens, "reporte_medicos.html");      //reporte 2
+    ReportGenerator::generarReporteCitas(tokens, "reporte_citas.html");          //reporte 3
+    ReportGenerator::generarReporteEstadistico(tokens, "reporte_estadistico.html"); //reporte 4
     
     txtConsola->append(">> Reportes HTML exportados exitosamente.");
     QMessageBox::information(this, "Éxito", "Reportes HTML generados en la carpeta 'build'.\n\nPuedes abrirlos en tu navegador.");
